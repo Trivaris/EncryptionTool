@@ -6,7 +6,6 @@ import com.trivaris.encryptiontool.networking.SecureSocket
 import com.trivaris.encryptiontool.networking.messagehandlers.MessageHandler
 import javax.swing.SwingUtilities
 
-
 fun main() {
     val socket = SecureSocket(8080)
     val ui = UserInterface()

@@ -1,5 +1,7 @@
 package com.trivaris.encryptiontool.app
 
+import com.trivaris.encryptiontool.encryption.RSAFactorizationAttack
+import com.trivaris.encryptiontool.keymanagement.KeyManager
 import java.awt.BorderLayout
 import java.awt.Font
 import java.awt.GridBagConstraints
@@ -44,6 +46,7 @@ class UserInterface() {
         val recipientField = JTextField("localhost", 15)
         val inputField = JTextField("Hello, World!", 15)
         val sendButton = JButton("Send")
+        val crackButton = JButton("Crack")
         val recipientLabel = JLabel("Recipient IP:")
         val messageLabel = JLabel("Message:")
 
@@ -70,10 +73,12 @@ class UserInterface() {
         // Third row: Send button (centered)
         constraints.gridx = 0
         constraints.gridy = 2
-        constraints.gridwidth = 2
         constraints.fill = GridBagConstraints.NONE
-        constraints.anchor = GridBagConstraints.CENTER
         panel.add(sendButton, constraints)
+
+        constraints.gridx = 1
+        constraints.fill = GridBagConstraints.HORIZONTAL
+        panel.add(crackButton, constraints)
 
         frame.add(panel, BorderLayout.SOUTH)
         frame.isVisible = true
@@ -81,6 +86,12 @@ class UserInterface() {
         sendButton.addActionListener {
             val recipient = InetAddress.getByName(recipientField.text)
             listeners.forEach { it.onSendButtonClicked(inputField.text, recipient) }
+        }
+
+        crackButton.addActionListener {
+            val cracker = RSAFactorizationAttack()
+            val cracked = cracker.crack(inputField.text, KeyManager.getPublicKey())
+            appendMessage("Cracked message: $cracked")
         }
 
         fun scaleFonts(width: Int, height: Int) {

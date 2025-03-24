@@ -16,9 +16,8 @@ class SecureSocket(private val port: Int) {
     private var isServerRunning = false
     private val scope = CoroutineScope(Dispatchers.IO)
 
-    fun addListener(listener: MessageListener) {
+    fun addListener(listener: MessageListener) =
         listeners.add(listener)
-    }
 
     fun startServer() {
         synchronized(this) {

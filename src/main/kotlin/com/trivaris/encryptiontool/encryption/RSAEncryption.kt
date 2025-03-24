@@ -16,9 +16,9 @@ class RSAEncryption() : EncryptionStrategy {
     }
 
     override fun decrypt(data: String, privateKey: PrivateKey): String {
+        val decoded = Base64.getDecoder().decode(data)
         val cipher = Cipher.getInstance(algorithm)
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
-        val decoded = Base64.getDecoder().decode(data)
         return cipher.doFinal(decoded).decodeToString()
     }
 }
