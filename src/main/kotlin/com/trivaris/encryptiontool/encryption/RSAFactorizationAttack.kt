@@ -12,10 +12,10 @@ import java.security.PublicKey
 import java.security.interfaces.RSAPublicKey
 import java.security.spec.RSAPrivateKeySpec
 
-class RSAFactorizationAttack {
+class RSAFactorizationAttack : CrackingStrategy {
     private val rsaStrategy = RSAEncryption()
 
-    fun crack(data: String, publicKey: PublicKey): String {
+    override fun crack(data: String, publicKey: PublicKey): String {
 
         val (n, e) = getModulusAndExponent(publicKey)
         val (p, q) = runBlocking { factorize(n) ?: throw IllegalArgumentException("Factorization failed") }

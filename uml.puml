@@ -1,0 +1,103 @@
+@startuml
+class encryptiontool.networking.messagehandlers.MessageBuffer {
+-  buffer
++ void store(String,InetAddress)
++ void null()
++ MutableList<String>? consume(InetAddress)
+}
+
+
+interface encryptiontool.app.InputListener {
++ void onSendButtonClicked(String,InetAddress)
+}
+
+class encryptiontool.networking.messagehandlers.MessageType$Companion {
++ MessageType fromRaw(String)
+}
+
+enum encryptiontool.networking.messagehandlers.MessageType {
++ void getMessage(String)
+}
+
+class encryptiontool.keymanagement.KeyGenerator {
++ void saveKeypair(EncryptionStrategy)
+- KeyPair generateKeyPair(EncryptionStrategy)
++ PublicKey publicFromString(String,EncryptionStrategy)
++ String publicKeyToString(PublicKey)
+}
+
+class encryptiontool.app.UserInterface {
+- JTextArea messageArea
+-  listeners
++ void show()
++ void addListener(InputListener)
++ void appendMessage(String)
++ String getTime()
+}
+
+
+class encryptiontool.networking.SecureSocket {
+- ServerSocket serverSocket
+-  listeners
+-  isServerRunning
+-  scope
++ void addListener(MessageListener)
++ void startServer()
++ void sendMessage(InetAddress,String,Int)
++ Int getPort()
+}
+
+
+class encryptiontool.keymanagement.KeyManager {
+- MutableMap<InetAddress, PublicKey> keyStore
+- KeyPair keypair
++ void storeKeys(InetAddress,String,EncryptionStrategy)
++ void storeKeys(InetAddress,PublicKey)
++ PublicKey? getPublicKey(InetAddress)
++ PublicKey getPublicKey()
++ PrivateKey getPrivateKey()
++ void setKeyPair(KeyPair)
+}
+
+
+interface encryptiontool.networking.MessageListener {
++ void onMessageReceived(String,InetAddress)
+}
+
+interface encryptiontool.encryption.EncryptionStrategy {
++ String algorithm
++ String encrypt(String,PublicKey)
++ String decrypt(String,PrivateKey)
+}
+
+
+class encryptiontool.encryption.RSAEncryption {
++  algorithm
++ String encrypt(String,PublicKey)
++ String decrypt(String,PrivateKey)
+}
+
+
+class encryptiontool.app.InputHandler {
+}
+class encryptiontool.networking.messagehandlers.MessageHandler {
+}
+class encryptiontool.encryption.RSAFactorizationAttack {
+-  rsaStrategy
++ String crack(String,PublicKey)
++ Pair<BigInteger, BigInteger>? factorize(BigInteger)
++ BigInteger eulerTotient(BigInteger,BigInteger)
++ Pair<BigInteger, BigInteger> getModulusAndExponent(PublicKey)
++ PrivateKey createPrivateKey(BigInteger,BigInteger)
+}
+
+
+interface encryptiontool.encryption.CrackingStrategy {
++ String crack(String,PublicKey)
+}
+
+
+
+encryptiontool.networking.messagehandlers.MessageType +.. encryptiontool.networking.messagehandlers.MessageType$Companion
+encryptiontool.encryption.EncryptionStrategy <|.. encryptiontool.encryption.RSAEncryption
+@enduml
